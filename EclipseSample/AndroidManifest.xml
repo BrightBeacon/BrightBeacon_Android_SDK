@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.brtbeacon.sdk.demo"
+    android:versionCode="4"
+    android:versionName="4.0.1" >
+
+    <uses-sdk
+        android:minSdkVersion="18"
+        android:targetSdkVersion="18" />
+    <!-- required为true表示必须设备支持蓝牙低功耗才能运行，如果不要求可以设置为false -->
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+    <!-- BRTSDK需要的权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name="com.brtbeacon.sdk.demo.BleApplication"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Holo" >
+
+        <!--
+        <activity
+            android:name=".DeviceScanActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        -->
+
+
+        <!--
+        <activity
+            android:name="com.example.bluetooth.le.TestRangingActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        -->
+
+        <activity
+            android:name="com.brtbeacon.sdk.demo.SampleMainActivity"
+            android:label="@string/title_activity_sample_main" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- BRTSDK服务 -->
+        <service
+            android:name="com.brtbeacon.sdk.BleService"
+            android:enabled="true" />
+
+        <activity
+            android:name="com.brtbeacon.sdk.demo.DeviceConfigActivity"
+            android:label="@string/title_activity_device_config" >
+        </activity>
+        <activity
+            android:name="com.brtbeacon.sdk.demo.DeviceMenuActivity"
+            android:label="@string/title_activity_device_menu" >
+        </activity>
+        <activity
+            android:name="com.brtbeacon.sdk.demo.DeviceScanActivity"
+            android:label="@string/title_activity_device_scan" >
+        </activity>
+        <activity
+            android:name="com.brtbeacon.sdk.demo.DeviceAdjustActivity"
+            android:label="@string/title_activity_device_adjust" >
+        </activity>
+        <activity
+            android:name="com.brtbeacon.sdk.demo.DeviceSimulateActivity"
+            android:label="@string/title_activity_device_simulate" >
+        </activity>
+        <activity
+            android:name="com.brtbeacon.sdk.demo.DeviceMonitorActivity"
+            android:label="@string/title_activity_device_monitor" >
+        </activity>
+    </application>
+
+</manifest>
