@@ -4,7 +4,7 @@
 #####1、将BRTSDK添加到工程libs文件夹；
 
 
-SDK下载：https://git.oschina.net/uareshine/BRTSDK
+SDK下载：https://github.com/BrightBeacon/BrightBeacon_Android_SDK
 	
 #####2、配置AndroidManifest.xml文件
 
@@ -61,6 +61,7 @@ SDK下载：https://git.oschina.net/uareshine/BRTSDK
 		}
 
 	}
+	
 ####4、扫描周边Beacon
 
 你可以通过实现并设置 BRTBeaconManagerListener 接口，来检测Beacon的出现,显示以及更新。样例代码如下：
@@ -85,6 +86,10 @@ SDK下载：https://git.oschina.net/uareshine/BRTSDK
 	
 	BRTBeaconManager.setBRTBeaconManagerListener(beaconManagerListener);
 在这个接口中，Beacon信息更新频率为 1 秒；发现一个新的Beacon后，如果在 8 秒内没有再次扫描到这个设备，则会回调Beacon消失。
+
+	BRTBeaconManager.startRanging();
+这个调用开启Beacon的扫描;
+
 	
 提示：
 
@@ -116,3 +121,13 @@ SDK下载：https://git.oschina.net/uareshine/BRTSDK
     	}
 		};
 	BRTBeaconManager.setBRTBeaconManagerListener(beaconManagerListener);
+	
+####6. 关闭Beacon扫描
+
+如果我们不需要Beacon的扫描任务, 可以进行如下操作:
+
+	BRTBeaconManager.stopRanging();
+这个调用停止Beacon的扫描;
+
+	BRTBeaconManager.setBRTBeaconManagerListener(null);
+这个调用将扫描回调清空;
