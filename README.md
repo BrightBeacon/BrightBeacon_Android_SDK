@@ -4,7 +4,7 @@
 #####1、将BRTSDK添加到工程libs文件夹；
 
 
-SDK下载：https://github.com/BrightBeacon/BrightBeacon_Android_SDK
+SDK下载：https://git.oschina.net/uareshine/BRTSDK
 	
 #####2、配置AndroidManifest.xml文件
 
@@ -110,7 +110,7 @@ SDK下载：https://github.com/BrightBeacon/BrightBeacon_Android_SDK
     	public void onNewBeacon(BRTBeacon beacon) {
         	if (beacon.getMacAddress().equals("000000000001")){
             	// 进入 MacAddress 为"000000000001 的Beacon
-        	}       
+        	}
     	}
 
     	@Override
@@ -131,3 +131,64 @@ SDK下载：https://github.com/BrightBeacon/BrightBeacon_Android_SDK
 
 	BRTBeaconManager.setBRTBeaconManagerListener(null);
 这个调用将扫描回调清空;
+
+####7. 连接读取Beacon配置
+
+如果我们要获取和配置Beacon的参数, 第一步需要连接进Beacon;
+
+下面的代码片断需在Activity里面执行
+
+BRTBeaconConnectionV2 conn = new BRTBeaconConnectionV2(this, null, beacon, connectionListener);
+
+BRTBeaconConnectionListener connectionListener = new BRTBeaconConnectionListener() {
+
+	void onConnectedState(int newState, int status) {
+	
+		if (newState == BRTBeaconConnection.CONNECTED) {
+			// 连接设备成功, 可以读取配置参数;
+			conn.readBeacon();
+		} else {
+			// 连接设备失败;
+			conn.disconnect();
+		}
+	}
+
+	void onBeaconRead(BRTBeacon beacon) { 
+		// Beacon配置读取完成;
+	}
+
+	void onBeaconWrite(BRTBeacon beacon, int status) {
+		// Beacon配置更新完成;
+	}
+
+	void onError(BRTThrowable throwable) { }
+
+	void onCharacteristicChanged(String uuid, int status, byte[] value) { }
+
+	void onCharacteristicWrite(String uuid, int status, byte[] value) { }
+
+	void onCharacteristicRead(String uuid, int status, byte[] value) { }
+}
+
+####8. 更新Beacon参数
+
+在连接Beacon成功以后,可以执行下面的代码更新Beacon参数;
+
+BRTBeaconConfig config = new BRTBeaconConfig();
+config.setName("BrtBeacon");
+config.setMajor(1234);
+config.setMinor(5678);
+conn.writeBeacon(config);
+
+如果设备参数更新完成, connectionListener 对象的 void onBeaconWrite(BRTBeacon beacon, int statusn)方法会被调用;
+
+
+
+
+
+
+
+
+
+
+
