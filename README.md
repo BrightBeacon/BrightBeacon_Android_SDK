@@ -4,7 +4,7 @@
 #####1、将BRTSDK添加到工程libs文件夹；
 
 
-SDK下载：https://git.oschina.net/uareshine/BRTSDK
+SDK下载：[https://github.com/BrightBeacon/BrightBeacon_Android_SDK](https://github.com/BrightBeacon/BrightBeacon_Android_SDK)
 	
 #####2、配置AndroidManifest.xml文件
 
@@ -180,7 +180,7 @@ config.setMajor(1234);
 config.setMinor(5678);
 conn.writeBeacon(config);
 
-如果设备参数更新完成, connectionListener 对象的 void onBeaconWrite(BRTBeacon beacon, int statusn)方法会被调用;
+如果设备参数更新完成, connectionListener 对象的 void onBeaconWrite(BRTBeacon beacon, int status)方法会被调用;
 
 
 
