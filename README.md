@@ -1,12 +1,12 @@
 
-##BrightBeacon SDK for Android 集成指南
+## BrightBeacon SDK for Android 集成指南
 ---
-#####1、将BRTSDK添加到工程libs文件夹；
+#### 1、将BRTSDK添加到工程libs文件夹；
 
 
 SDK下载：[https://github.com/BrightBeacon/BrightBeacon_Android_SDK](https://github.com/BrightBeacon/BrightBeacon_Android_SDK)
 	
-#####2、配置AndroidManifest.xml文件
+#### 2、配置AndroidManifest.xml文件
 
 	
  	<!-- BRTSDK需要的权限. -->
@@ -23,7 +23,7 @@ SDK下载：[https://github.com/BrightBeacon/BrightBeacon_Android_SDK](https://g
         android:name="com.brtbeacon.sdk.BleService"
         android:enabled="true" />
         
-####3、初始化BRTSDK
+#### 3、初始化BRTSDK
 
 
 	public class BleApplication extends Application {
@@ -62,7 +62,7 @@ SDK下载：[https://github.com/BrightBeacon/BrightBeacon_Android_SDK](https://g
 
 	}
 	
-####4、扫描周边Beacon
+#### 4、扫描周边Beacon
 
 你可以通过实现并设置 BRTBeaconManagerListener 接口，来检测Beacon的出现,显示以及更新。样例代码如下：
 
@@ -95,7 +95,7 @@ SDK下载：[https://github.com/BrightBeacon/BrightBeacon_Android_SDK](https://g
 
 回调函数是在非 UI 线程中运行的，请不要在回调函数中进行任何 UI 的相关相关操作，否则会导致 SDK 运行异常。如有需要，请通过 Handler 或者 Activity.runOnUiThread 方式来运行你的代码。
 
-####5、监控Beacon进出状态
+#### 5、监控Beacon进出状态
 
 通常我们进入或离开某些Beacon设备时需要进行一些操作。下面是判断是否进入和离开MacAddress为"000000000001"的Beacon的样例代码：
 
@@ -122,7 +122,7 @@ SDK下载：[https://github.com/BrightBeacon/BrightBeacon_Android_SDK](https://g
 		};
 	BRTBeaconManager.setBRTBeaconManagerListener(beaconManagerListener);
 	
-####6. 关闭Beacon扫描
+#### 6. 关闭Beacon扫描
 
 如果我们不需要Beacon的扫描任务, 可以进行如下操作:
 
@@ -132,7 +132,7 @@ SDK下载：[https://github.com/BrightBeacon/BrightBeacon_Android_SDK](https://g
 	BRTBeaconManager.setBRTBeaconManagerListener(null);
 这个调用将扫描回调清空;
 
-####7. 连接读取Beacon配置
+#### 7. 连接读取Beacon配置
 
 如果我们要获取和配置Beacon的参数, 第一步需要连接进Beacon;
 
@@ -170,7 +170,7 @@ BRTBeaconConnectionListener connectionListener = new BRTBeaconConnectionListener
 	void onCharacteristicRead(String uuid, int status, byte[] value) { }
 }
 
-####8. 更新Beacon参数
+#### 8. 更新Beacon参数
 
 在连接Beacon成功以后,可以执行下面的代码更新Beacon参数;
 
