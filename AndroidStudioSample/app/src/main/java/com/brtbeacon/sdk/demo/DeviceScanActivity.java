@@ -23,6 +23,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.apache.commons.codec.binary.Hex;
+
 public class DeviceScanActivity extends Activity implements OnItemClickListener, android.view.View.OnClickListener {
 		
 	public final static String KEY_ACTION_TYPE = "key_action_type";
@@ -59,6 +61,7 @@ public class DeviceScanActivity extends Activity implements OnItemClickListener,
 				TextView tvMajor = (TextView)view.findViewById(R.id.tv_major);
 				TextView tvMinor = (TextView) view.findViewById(R.id.tv_minor);
 				TextView tvUuid = (TextView) view.findViewById(R.id.tv_uuid);
+				TextView tvUserData = (TextView) view.findViewById(R.id.tv_userdata);
 				
 				BRTBeacon beacon = getItem(position);
 				
@@ -68,6 +71,7 @@ public class DeviceScanActivity extends Activity implements OnItemClickListener,
 				tvMajor.setText(String.valueOf(beacon.getMajor()));
 				tvMinor.setText(String.valueOf(beacon.getMinor()));
 				tvUuid.setText(beacon.getUuid());
+				tvUserData.setText(String.valueOf(Hex.encodeHex(beacon.getUserData())).toUpperCase());
 				
 				return view;
 			}

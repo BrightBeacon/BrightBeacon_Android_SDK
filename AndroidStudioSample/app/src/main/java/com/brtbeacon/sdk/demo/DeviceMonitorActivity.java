@@ -98,6 +98,9 @@ public class DeviceMonitorActivity extends Activity implements OnClickListener, 
 	private BRTBeaconMonitorListener monitorListener = new BRTBeaconMonitorListener() {		
 		@Override
 		public void onRegion(BRTBeacon beacon, BRTRegion region, int state) {
+
+			System.out.println("监听通知!");
+
 			String toastMsg;
 			if(state == 0) {
 				toastMsg = "离开Beacon所在区域!";
