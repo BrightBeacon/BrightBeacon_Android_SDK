@@ -1,13 +1,5 @@
 package com.brtbeacon.sdk.demo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.brtbeacon.sdk.BRTBeacon;
-import com.brtbeacon.sdk.BRTBeaconManager;
-import com.brtbeacon.sdk.BRTThrowable;
-import com.brtbeacon.sdk.callback.BRTBeaconManagerListener;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -15,17 +7,25 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.apache.commons.codec.binary.Hex;
+import com.brtbeacon.sdk.BRTBeacon;
+import com.brtbeacon.sdk.BRTBeaconManager;
+import com.brtbeacon.sdk.BRTThrowable;
+import com.brtbeacon.sdk.callback.BRTBeaconManagerListener;
 
-public class DeviceScanActivity extends Activity implements OnItemClickListener, android.view.View.OnClickListener {
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+public class DeviceScanActivity extends AppCompatActivity implements OnItemClickListener, View.OnClickListener {
 		
 	public final static String KEY_ACTION_TYPE = "key_action_type";
 	//	Beacon参数配置
@@ -71,7 +71,7 @@ public class DeviceScanActivity extends Activity implements OnItemClickListener,
 				tvMajor.setText(String.valueOf(beacon.getMajor()));
 				tvMinor.setText(String.valueOf(beacon.getMinor()));
 				tvUuid.setText(beacon.getUuid());
-				tvUserData.setText(String.valueOf(Hex.encodeHex(beacon.getUserData())).toUpperCase());
+				//tvUserData.setText(String.valueOf(Hex.encodeHex(beacon.getUserData())).toUpperCase());
 				
 				return view;
 			}
@@ -93,21 +93,30 @@ public class DeviceScanActivity extends Activity implements OnItemClickListener,
 			tvIntro.setVisibility(View.GONE);
 		}
 		
-		beaconManager = BRTBeaconManager.getInstance(this);
-		
 		checkBluetoothValid();
+
+		beaconManager = BRTBeaconManager.getInstance(this);
+		beaconManager.setPowerMode(BRTBeaconManager.POWER_MODE_LOW_POWER);
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		beaconManager.setBRTBeaconManagerListener(scanListener);
-		beaconManager.startRanging();
+		startScan();
 	}	
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
+		stopScan();
+	}
+
+	private void startScan() {
+		beaconManager.setBRTBeaconManagerListener(scanListener);
+		beaconManager.startRanging();
+	}
+
+	private void stopScan() {
 		beaconManager.stopRanging();
 		beaconManager.setBRTBeaconManagerListener(null);
 	}
@@ -161,7 +170,8 @@ public class DeviceScanActivity extends Activity implements OnItemClickListener,
 		
 		@Override
 		public void onUpdateBeacon(final ArrayList<BRTBeacon> arg0) {
-			
+
+
 			runOnUiThread(new Runnable() {
 				
 				@Override
@@ -169,9 +179,10 @@ public class DeviceScanActivity extends Activity implements OnItemClickListener,
 					beaconList.clear();
 					beaconList.addAll(arg0);
 					beaconAdapter.notifyDataSetChanged();
+					System.out.println(Calendar.getInstance().getTimeInMillis());
 				}
 			});
-			
+
 		}
 		
 		@Override
@@ -200,10 +211,10 @@ public class DeviceScanActivity extends Activity implements OnItemClickListener,
 	public void onClick(View view) {
 		switch(view.getId()) {
 			case R.id.btn_refresh: {
-				beaconManager.stopRanging();
+				stopScan();
 				beaconList.clear();
 				beaconAdapter.notifyDataSetChanged();
-				beaconManager.startRanging();
+				startScan();
 				break;
 			}
 		}

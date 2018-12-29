@@ -41,6 +41,7 @@ public class DeviceMonitorActivity extends Activity implements OnClickListener, 
 		
 		
 		beaconManager = BRTBeaconManager.getInstance(this);
+		beaconManager.setPowerMode(BRTBeaconManager.POWER_MODE_LOW_POWER);
 		
 		cbox_notify_inside = (CheckBox)findViewById(R.id.cbox_notify_inside);
 		cbox_notify_outside = (CheckBox)findViewById(R.id.cbox_notify_outside);
