@@ -37,7 +37,8 @@ public class SampleMainActivity extends AppCompatActivity implements OnClickList
 		switch(view.getId()) {
 		
 			case R.id.btn_device_scan: {
-				DeviceScanActivity.startActivity(this, 0);
+				//DeviceScanActivity.startActivity(this, 0);
+				DeviceScanActivityV2.startActivity(this);
 				break;
 			}
 		

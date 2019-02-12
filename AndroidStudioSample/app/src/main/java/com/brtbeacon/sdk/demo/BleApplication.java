@@ -19,12 +19,12 @@ public class BleApplication extends Application {
         // 注册应用 APPKEY申请地址 http://brtbeacon.com/main/index.shtml
         beaconManager.registerApp("00000000000000000000000000000000");
         // 开启Beacon扫描服务
-        beaconManager.startService();
+        //beaconManager.startService();
 
     }
 
     public void stopService() {
-        beaconManager.stopService();
+        //beaconManager.stopService();
     }
 
     /**

@@ -71,6 +71,11 @@
             android:name="com.brtbeacon.sdk.BleService"
             android:enabled="true" />
 
+        <activity android:name=".DeviceScanActivityV2"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        </activity>
+
         <activity
             android:name=".DeviceConfigActivity"
             android:label="@string/title_activity_device_config" >

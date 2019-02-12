@@ -171,7 +171,6 @@ public class DeviceScanActivity extends AppCompatActivity implements OnItemClick
 		@Override
 		public void onUpdateBeacon(final ArrayList<BRTBeacon> arg0) {
 
-
 			runOnUiThread(new Runnable() {
 				
 				@Override
