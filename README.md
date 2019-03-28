@@ -103,10 +103,12 @@ SDK下载：[https://github.com/BrightBeacon/BrightBeacon_Android_SDK](https://g
 
     	@Override
     	public void onUpdateBeacon(ArrayList<BRTBeacon> beacons) {
-        	// Beacon信息更新                  
+        	// Beacon信息更新，每秒更新一次，内部设备列表默认有8秒缓存                  
     	}
 
     	@Override
+    	public void onNewBeacon(BRTBeacon beacon) {
+		//新设备出现
     	public void onNewBeacon(BRTBeacon beacon) {
         	if (beacon.getMacAddress().equals("000000000001")){
             	// 进入 MacAddress 为"000000000001 的Beacon
@@ -115,6 +117,7 @@ SDK下载：[https://github.com/BrightBeacon/BrightBeacon_Android_SDK](https://g
 
     	@Override
     	public void onGoneBeacon(BRTBeacon beacon) {
+	        //设备信号消失，默认有8s缓存
         	if (beacon.getSerialNumber().equals("000000000001")){
             	// 离开 MacAddress 为"000000000001 的Beacon
         	}      
