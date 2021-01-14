@@ -177,11 +177,11 @@ BRTBeaconConnectionListener connectionListener = new BRTBeaconConnectionListener
 
 在连接Beacon成功以后,可以执行下面的代码更新Beacon参数;
 
-BRTBeaconConfig config = new BRTBeaconConfig();
-config.setName("BrtBeacon");
-config.setMajor(1234);
-config.setMinor(5678);
-conn.writeBeacon(config);
+	BRTBeaconConfig config = new BRTBeaconConfig();
+	config.setName("BrtBeacon");
+	config.setMajor(1234);
+	config.setMinor(5678);
+	conn.writeBeacon(config);
 
 如果设备参数更新完成, connectionListener 对象的 void onBeaconWrite(BRTBeacon beacon, int status)方法会被调用;
 
