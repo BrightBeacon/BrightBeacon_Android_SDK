@@ -1,5 +1,6 @@
 
-## BrightBeacon SDK for Android 集成指南
+# 智石科技Beacon扫描及配置SDK for Android 集成指南
+
 ---
 #### 1、将BRTSDK添加到工程libs文件夹；
 
@@ -12,88 +13,78 @@ SDK下载：[https://github.com/BrightBeacon/BrightBeacon_Android_SDK](https://g
  	<!-- BRTSDK需要的权限. -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    
-    <!-- BRTSDK服务. -->
-    <service
-        android:name="com.brtbeacon.sdk.BleService"
-        android:enabled="true" />
+
         
-#### 3、初始化BRTSDK
+#### 3、编写BRTSDK集成代码
 
-
-	public class BleApplication extends Application {
-
-		private BRTBeaconManager beaconManager;
-
-		@Override
-		public void onCreate() {
-			super.onCreate();
-			// 开启log打印
-			L.enableDebugLogging(true);
-			//获取单例
-			beaconManager = BRTBeaconManager.getInstance(this);
-			// 注册应用 APPKEY申请:http://brtbeacon.com/main/index.shtml
-			beaconManager.registerApp("00000000000000000000000000000000");
-			// 开启Beacon扫描服务
-			beaconManager.startService();
-
-		}
-		/**
-	 	* 创建Beacon连接需要传递此参数
-	 	* @return IBle
-	 	*/
-		public IBle getIBle() {
-			return beaconManager.getIBle();
-		}
-
-		/**
-	 	* 获取Beacon管理对象
-	 	* 
-	 	* @return BRTBeaconManager
-	 	*/
-		public BRTBeaconManager getBRTBeaconManager() {
-			return beaconManager;
-		}
-
+	以下代码在Activity中添加：
+	
+	private BRTBeaconManager beaconManager;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		//获取单例
+		beaconManager = BRTBeaconManager.getInstance(this);
+		// 注册应用 APPKEY申请:http://brtbeacon.com/main/index.shtml
+		
+		beaconManager.registerApp("00000000000000000000000000000000");
+		
+		// 通过设置 BRTBeaconManagerListener 接口实现，来检测Beacon的出现,显示以及更新。
+		BRTBeaconManager.setBRTBeaconManagerListener(beaconManagerListener);
 	}
+	
+	// BRTBeaconManagerListener 接口实现。
+	private BRTBeaconManagerListener beaconManagerListener = new BRTBeaconManagerListener() {
+	
+		@Override
+		public void onUpdateBeacon(ArrayList<BRTBeacon> beacons) {
+			// 扫描到的周边Beacon数据列表                  
+		}
+	
+		@Override
+		public void onNewBeacon(BRTBeacon beacon) {
+			// 扫描到新的Beacon        
+		}
+	
+		@Override
+		public void onGoneBeacon(BRTBeacon beacon) {
+			// 扫描到的Beacon消失     
+		}
+	};
 	
 #### 4、扫描周边Beacon
 
-你可以通过实现并设置 BRTBeaconManagerListener 接口，来检测Beacon的出现,显示以及更新。样例代码如下：
+注意：
 
-	BRTBeaconManagerListener beaconManagerListener = new BRTBeaconManagerListener() {
+1、请确保测试手机蓝牙处理开启状态。
 
-    	@Override
-    	public void onUpdateBeacon(ArrayList<BRTBeacon> beacons) {
-        	// Beacon信息更新                  
-    	}
+2、安卓6.0及以上系统，需要对以下权限添加运行时申请代码：
 
-    	@Override
-    	public void onNewBeacon(BRTBeacon beacon) {
-        	// 发现一个新的Beacon        
-    	}
+android.permission.ACCESS_FINE_LOCATION
 
-    	@Override
-    	public void onGoneBeacon(BRTBeacon beacon) {
-        	// 一个Beacon消失     
-    	}
-		};
-	
-	BRTBeaconManager.setBRTBeaconManagerListener(beaconManagerListener);
-在这个接口中，Beacon信息更新频率为 1 秒；发现一个新的Beacon后，如果在 8 秒内没有再次扫描到这个设备，则会回调Beacon消失。
+android.permission.ACCESS_COARSE_LOCATION
 
+
+	// 开启Beacon扫描
 	BRTBeaconManager.startRanging();
-这个调用开启Beacon的扫描;
-
+	
+	// 关闭Beacon扫描
+	BRTBeaconManager.stopRanging();
 	
 提示：
 
 回调函数是在非 UI 线程中运行的，请不要在回调函数中进行任何 UI 的相关相关操作，否则会导致 SDK 运行异常。如有需要，请通过 Handler 或者 Activity.runOnUiThread 方式来运行你的代码。
+
+Beacon信息更新频率为 1 秒；发现一个新的Beacon后，如果在 8 秒内没有再次扫描到这个设备，则会回调onGoneBeacon。
+
 
 #### 5、监控Beacon进出状态
 
@@ -124,16 +115,6 @@ SDK下载：[https://github.com/BrightBeacon/BrightBeacon_Android_SDK](https://g
     	}
 		};
 	BRTBeaconManager.setBRTBeaconManagerListener(beaconManagerListener);
-	
-#### 6. 关闭Beacon扫描
-
-如果我们不需要Beacon的扫描任务, 可以进行如下操作:
-
-	BRTBeaconManager.stopRanging();
-这个调用停止Beacon的扫描;
-
-	BRTBeaconManager.setBRTBeaconManagerListener(null);
-这个调用将扫描回调清空;
 
 #### 7. 连接读取Beacon配置
 
