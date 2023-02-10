@@ -7,12 +7,11 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
 import com.brtbeacon.sdk.BRTBeacon;
@@ -22,8 +21,6 @@ import com.brtbeacon.sdk.callback.BRTBeaconManagerListener;
 import com.brtbeacon.sdk.demo.adapter.BeaconViewAdapter;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 public class DeviceScanActivityV2 extends AppCompatActivity implements View.OnClickListener {
 

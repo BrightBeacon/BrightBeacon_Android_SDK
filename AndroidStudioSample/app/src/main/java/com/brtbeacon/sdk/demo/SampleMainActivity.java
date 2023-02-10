@@ -1,15 +1,17 @@
 package com.brtbeacon.sdk.demo;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -68,7 +70,20 @@ public class SampleMainActivity extends AppCompatActivity implements OnClickList
 	private void checkPermission() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//判断当前系统的SDK版本是否大于23
 			List<String> permissionNeedRequest = new LinkedList<>();
-			for (String permssion: permissionsNeedCheck) {
+
+			List<String> permissions = new ArrayList<>();
+
+			permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+			permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+				// 安卓12及以上版本需要申请的相关权限
+				permissions.add(Manifest.permission.BLUETOOTH_CONNECT);
+				permissions.add(Manifest.permission.BLUETOOTH_SCAN);
+				permissions.add(Manifest.permission.BLUETOOTH_ADVERTISE);
+			}
+
+			for (String permssion: permissions) {
 				if(ActivityCompat.checkSelfPermission(this, permssion) != PackageManager.PERMISSION_GRANTED) {
 					permissionNeedRequest.add(permssion);
 				}
@@ -102,15 +117,5 @@ public class SampleMainActivity extends AppCompatActivity implements OnClickList
 				break;
 		}
 	}
-
-	private static final List<String> permissionsNeedCheck;
-	static {
-		permissionsNeedCheck = new LinkedList<>();
-		permissionsNeedCheck.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
-		permissionsNeedCheck.add(android.Manifest.permission.ACCESS_COARSE_LOCATION);
-		permissionsNeedCheck.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-	}
-	
-	
 	
 }
